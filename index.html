@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Follow the Rabbit-Proof Fence – Exam Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5ede0;
+    --dust: #e8d5b7;
+    --rust: #b5451b;
+    --ochre: #c8832a;
+    --bark: #6b3a1f;
+    --sky: #6a9cb8;
+    --dark: #2a1a0e;
+    --mid: #7a5c3a;
+    --light: #fdf7ef;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--sand);
+    color: var(--dark);
+    font-family: 'Source Serif 4', Georgia, serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 80% 20%, rgba(181,69,27,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 10% 80%, rgba(106,156,184,0.12) 0%, transparent 50%);
+  }
+  header {
+    background: var(--bark);
+    color: var(--sand);
+    padding: 28px 32px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0; height: 6px;
+    background: repeating-linear-gradient(90deg, var(--rust) 0, var(--rust) 18px, var(--ochre) 18px, var(--ochre) 36px);
+  }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem,4vw,2.1rem); font-weight: 900; letter-spacing: -0.5px; line-height: 1.15; }
+  header p { font-size: 0.88rem; opacity: 0.75; margin-top: 6px; font-style: italic; }
+  .badge { display: inline-block; background: var(--rust); color: white; font-size: 0.7rem; font-family: 'Playfair Display', serif; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; margin-bottom: 10px; }
+  nav { display: flex; gap: 6px; padding: 14px 16px; background: var(--dust); border-bottom: 2px solid var(--ochre); flex-wrap: wrap; }
+  nav button { background: transparent; border: 1.5px solid var(--mid); color: var(--bark); padding: 7px 14px; border-radius: 3px; cursor: pointer; font-family: 'Playfair Display', serif; font-size: 0.82rem; font-weight: 700; transition: all 0.18s; }
+  nav button:hover { background: var(--ochre); color: white; border-color: var(--ochre); }
+  nav button.active { background: var(--bark); color: var(--sand); border-color: var(--bark); }
+  main { padding: 20px 16px 40px; max-width: 860px; margin: 0 auto; }
+  section { display: none; }
+  section.visible { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
+  h2 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--bark); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--dust); }
+  h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--rust); margin: 20px 0 8px; }
+  p { line-height: 1.7; font-size: 0.93rem; margin-bottom: 10px; }
+
+  /* CHAPTER CARDS */
+  .chapter {
+    background: var(--light);
+    border: 1.5px solid var(--dust);
+    border-radius: 8px;
+    margin-bottom: 18px;
+    overflow: hidden;
+    box-shadow: 2px 3px 10px rgba(0,0,0,0.07);
+  }
+  .chapter-header {
+    background: var(--bark);
+    color: var(--sand);
+    padding: 12px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .chapter-header:hover { background: var(--rust); }
+  .chapter-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.95rem; }
+  .chapter-sub { font-size: 0.78rem; opacity: 0.75; font-style: italic; margin-top: 2px; }
+  .chapter-arrow { font-size: 1rem; transition: transform 0.2s; }
+  .chapter-arrow.open { transform: rotate(90deg); }
+  .chapter-body { padding: 16px 18px; display: none; }
+  .chapter-body.open { display: block; }
+  .chapter-body p { color: var(--dark); }
+  .analysis-box {
+    background: linear-gradient(135deg, #fff8f0, #fef0e0);
+    border-left: 4px solid var(--ochre);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 15px;
+    margin-top: 14px;
+  }
+  .analysis-box .label { font-family: 'Playfair Display', serif; font-size: 0.72rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ochre); font-weight: 700; margin-bottom: 6px; }
+
+  /* CHARACTERS */
+  .char-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media(max-width: 560px) { .char-grid { grid-template-columns: 1fr; } }
+  .char-card { background: var(--light); border-left: 4px solid var(--rust); padding: 14px 15px; border-radius: 0 6px 6px 0; box-shadow: 2px 3px 8px rgba(0,0,0,0.06); }
+  .char-card.sky { border-color: var(--sky); }
+  .char-card.ochre { border-color: var(--ochre); }
+  .char-card.bark { border-color: var(--bark); }
+  .char-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; color: var(--bark); }
+  .char-role { font-size: 0.72rem; letter-spacing: 0.8px; text-transform: uppercase; color: var(--rust); margin: 2px 0 6px; }
+  .char-card p { font-size: 0.86rem; line-height: 1.55; color: var(--mid); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--rust), var(--ochre), var(--sky)); }
+  .tl-item { position: relative; margin-bottom: 14px; background: var(--light); border-radius: 5px; padding: 11px 14px; box-shadow: 1px 2px 6px rgba(0,0,0,0.06); border: 1px solid var(--dust); }
+  .tl-item::before { content: ''; position: absolute; left: -23px; top: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--rust); border: 2px solid var(--sand); box-shadow: 0 0 0 2px var(--rust); }
+  .tl-date { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.78rem; color: var(--rust); letter-spacing: 0.5px; }
+  .tl-item p { font-size: 0.88rem; margin-top: 4px; line-height: 1.5; margin-bottom: 0; }
+
+  /* THEMES */
+  .theme-card { background: var(--light); border: 1.5px solid var(--dust); border-radius: 8px; padding: 16px 18px; margin-bottom: 14px; box-shadow: 2px 3px 8px rgba(0,0,0,0.06); }
+  .theme-tag { display: inline-block; color: white; font-size: 0.72rem; font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 9px; border-radius: 2px; margin-bottom: 8px; background: var(--rust); }
+  .theme-tag.sky { background: var(--sky); }
+  .theme-tag.ochre { background: var(--ochre); }
+  .theme-tag.bark { background: var(--bark); }
+  .theme-card h3 { margin-top: 0; }
+  .quote-ex { font-style: italic; color: var(--mid); border-left: 3px solid var(--dust); padding-left: 10px; margin-top: 8px; font-size: 0.86rem; }
+
+  /* VOCAB */
+  .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width: 500px) { .vocab-grid { grid-template-columns: 1fr; } }
+  .vocab-item { background: var(--light); border: 1px solid var(--dust); border-radius: 5px; padding: 10px 13px; }
+  .vocab-word { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--bark); font-size: 0.95rem; }
+  .vocab-def { font-size: 0.82rem; color: var(--mid); margin-top: 3px; line-height: 1.4; }
+
+  /* SPEAKING */
+  .phrase-cat { margin-bottom: 22px; }
+  .phrase-list { list-style: none; }
+  .phrase-list li { background: var(--light); border-left: 3px solid var(--ochre); padding: 9px 13px; margin-bottom: 7px; border-radius: 0 4px 4px 0; font-size: 0.88rem; line-height: 1.5; }
+  .phrase-list li em { color: var(--rust); font-style: italic; display: block; font-size: 0.82rem; margin-top: 2px; }
+
+  /* QUIZ */
+  .quiz-box { background: var(--light); border: 1.5px solid var(--dust); border-radius: 8px; padding: 22px 20px; }
+  .quiz-q { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--bark); margin-bottom: 16px; line-height: 1.4; }
+  .quiz-q span { color: var(--rust); font-size: 0.78rem; font-style: italic; font-weight: normal; display: block; margin-bottom: 6px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .quiz-options button { text-align: left; background: var(--sand); border: 1.5px solid var(--dust); border-radius: 4px; padding: 10px 14px; font-family: 'Source Serif 4', serif; font-size: 0.88rem; cursor: pointer; transition: all 0.15s; color: var(--dark); }
+  .quiz-options button:hover:not(:disabled) { background: var(--dust); border-color: var(--mid); }
+  .quiz-options button.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+  .quiz-options button.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+  .quiz-feedback { font-size: 0.88rem; line-height: 1.6; padding: 10px 14px; border-radius: 4px; background: var(--dust); display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 8px; }
+  .quiz-nav button { background: var(--bark); color: var(--sand); border: none; border-radius: 4px; padding: 9px 20px; font-family: 'Playfair Display', serif; font-weight: 700; cursor: pointer; font-size: 0.88rem; transition: background 0.15s; }
+  .quiz-nav button:hover { background: var(--rust); }
+  .quiz-nav button:disabled { opacity: 0.4; cursor: default; background: var(--mid); }
+  .quiz-counter { font-size: 0.82rem; color: var(--mid); font-style: italic; }
+  .quiz-score { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--bark); text-align: center; margin-top: 10px; }
+
+  .tip { background: linear-gradient(135deg,#fff8f0,#fef0e0); border: 1px solid var(--ochre); border-radius: 6px; padding: 14px 16px; margin-top: 18px; font-size: 0.88rem; line-height: 1.6; }
+  .tip strong { color: var(--rust); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Mündliche Prüfung – Vorbereitung</div>
+  <h1>Follow the Rabbit-Proof Fence</h1>
+  <p>Doris Pilkington Garimara &nbsp;·&nbsp; Alle Kapitel &nbsp;·&nbsp; Englisch 7. Schuljahr</p>
+</header>
+
+<nav>
+  <button onclick="show('quicksummary',this)">⚡ Quick Summary</button>
+  <button class="active" onclick="show('chapters',this)">📖 Chapters</button>
+  <button onclick="show('chars',this)">👤 Characters</button>
+  <button onclick="show('timeline',this)">📅 Timeline</button>
+  <button onclick="show('themes',this)">💡 Themes</button>
+  <button onclick="show('vocab',this)">📝 Vocabulary</button>
+  <button onclick="show('phrases',this)">🗣️ Speaking</button>
+  <button onclick="show('quiz',this)">🎯 Quiz</button>
+</nav>
+
+<main>
+
+<!-- ══════════════ QUICK SUMMARY ══════════════ -->
+<section id="quicksummary">
+  <h2>⚡ Quick Summary — The Whole Story in 2 Minutes</h2>
+
+  <div class="card" style="border-left: 4px solid var(--rust); padding: 18px 20px;">
+    <h3 style="margin-top:0; color: var(--bark);">In one sentence</h3>
+    <p style="font-size:1rem; font-style:italic; color: var(--bark);">"Three Aboriginal girls are forcibly taken from their families in 1931 and walk over 1,000 miles through the Australian outback to get back home — guided by a fence."</p>
+  </div>
+
+  <h3>The Background (Chapters 1–4)</h3>
+  <div class="card">
+    <p>From 1826 onwards, British colonisers arrive in Australia and gradually destroy Aboriginal life — taking land, banning ceremonies, punishing Aboriginal people under British law. By 1900, the Aboriginal Mardu people have lost almost everything. They relocate to a government outpost called <strong>Jigalong</strong>, navigating by a 1,200-mile <strong>rabbit-proof fence</strong> built in 1907.</p>
+  </div>
+
+  <h3>The Removal (Chapter 5)</h3>
+  <div class="card">
+    <p>At Jigalong, <strong>Molly Craig</strong> (14) grows up with her two cousins <strong>Gracie</strong> and <strong>Daisy</strong>. All three are biracial — Aboriginal mother, white father. Under Australia's 1905 Aborigines Act, the government removes biracial children from their families to "educate" them into white society. In <strong>July 1931</strong>, Constable Riggs takes the three girls to the <strong>Moore River Native Settlement</strong> — hundreds of miles away.</p>
+  </div>
+
+  <h3>The Settlement (Chapters 6–7)</h3>
+  <div class="card">
+    <p>Moore River is more like a prison than a school: padlocked dormitories, insect-infested food, a punishment cell called the "boob", and only English allowed. On her second night, Molly hears the bolt lock on her door — and decides: <strong>they must escape.</strong></p>
+  </div>
+
+  <h3>The Trek Home (Chapters 8–9)</h3>
+  <div class="card">
+    <p>Escaping is easy. Getting home is not. The girls walk for <strong>~7 weeks</strong>, covering over <strong>1,000 miles</strong>. They beg for food, dodge police trackers, and carry Daisy when her feet become infected. Near the end, <strong>Gracie leaves</strong> to find her own mother — and is recaptured. In <strong>October 1931</strong>, Molly and Daisy finally reach Jigalong. The key: Molly's father was a fence inspector — she knew to follow the fence north.</p>
+  </div>
+
+  <h3>Epilogue</h3>
+  <div class="card">
+    <p>Molly is later taken back to Moore River after an illness. She escapes again — but her daughter <strong>Doris</strong> (age 4) is left behind. Doris grows up, becomes a journalist, and writes this book decades later to honour her mother's story.</p>
+  </div>
+
+  <div style="background: var(--bark); color: var(--sand); border-radius: 8px; padding: 18px 20px; margin-top: 18px;">
+    <div style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.8rem; letter-spacing: 1.2px; text-transform: uppercase; opacity: 0.75; margin-bottom: 10px;">The 3 things to always remember</div>
+    <p style="margin-bottom: 8px; font-size: 0.92rem;">🔑 <strong>The fence</strong> = built by colonisers, but becomes Molly's path to freedom</p>
+    <p style="margin-bottom: 8px; font-size: 0.92rem;">🔑 <strong>The removal policy</strong> = called "protection", was actually cultural destruction</p>
+    <p style="margin-bottom: 0; font-size: 0.92rem;">🔑 <strong>Doris wrote this book</strong> = the story is an act of memory and resistance</p>
+  </div>
+</section>
+
+<!-- ══════════════ CHAPTERS ══════════════ -->
+<section id="chapters" class="visible">
+  <h2>Chapter-by-Chapter Summary</h2>
+
+  <!-- INTRO -->
+  <div class="chapter">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <div>
+        <div class="chapter-title">Introduction — The Author's Note</div>
+        <div class="chapter-sub">Who wrote this book, and how?</div>
+      </div>
+      <div class="chapter-arrow">▶</div>
+    </div>
+    <div class="chapter-body">
+      <p>The book is written by <strong>Doris Pilkington Garimara</strong>, whose Aboriginal name is Nugi Garimara. Doris is the daughter of Molly — one of the three girls at the centre of the story. She wrote this book to honour her mother's extraordinary journey.</p>
+      <p>Doris explains how she researched the story: she walked the same paths in her memory, studied the geography and plants of Western Australia, and interviewed her mother and aunt. One challenge: Aboriginal storytelling does not use Western dates and numbers in the same way. Time is linked to the seasons and the natural world, not to calendars. So the book is told in an unconventional, non-linear way — the reader must piece the timeline together.</p>
+      <div class="analysis-box">
+        <div class="label">Why this matters</div>
+        <p>The unusual structure of the book is intentional. Pilkington Garimara tells the story the way Aboriginal people would — connected to nature and memory, not to dates. This itself is a statement: Aboriginal culture is different from European culture, and neither is less valid.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CH 1 -->
+  <div class="chapter">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <div>
+        <div class="chapter-title">Chapter 1 — The First Military Post</div>
+        <div class="chapter-sub">~1826 · The British arrive in King George Sound</div>
+      </div>
+      <div class="chapter-arrow">▶</div>
+    </div>
+    <div class="chapter-body">
+      <p>We meet <strong>Kundilla</strong>, the leader of the Nyungar tribe. It is early morning, around 1830. He has already been awake for hours, checking his fish traps in the river. About 60 members of his extended family are camped together for a coastal hunting season — a time of abundance and community.</p>
+      <p>Suddenly, a loud <strong>cannon boom</strong> rings out and terrifies the camp. Kundilla gathers the men to investigate. He recalls with dread the recent raids by white strangers — pirates, hunters, escaped convicts — who had come ashore, kidnapped Aboriginal women and taken them as slaves. The Nyungar men could not fight back against guns. They had little resistance anyway, because they believed the white men were <strong>gengas</strong> — spirits of their own ancestors returned from the dead. How could you fight your own ancestors?</p>
+      <p>The cannon boom is a salute: British soldiers under <strong>Major Edmund Lockyer</strong> are raising the Union Jack on the shore — establishing a military base at King George Sound (near what is now Albany) in 1826. When Kundilla approaches, he sees that these white men are different: they are not raiders. This outpost was actually set up to <em>protect</em> the Aboriginal people from rogue sailors.</p>
+      <div class="analysis-box">
+        <div class="label">Deeper meaning</div>
+        <p>The contrast is sharp: peaceful birdsong and rippling water vs. the boom of a cannon. The author uses these sounds deliberately. The cannon is a symbol of everything that is coming: the destruction of Aboriginal life. Kundilla represents all Aboriginal people — wise, peaceful, deeply connected to nature, about to have their world taken away.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CH 2 -->
+  <div class="chapter">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <div>
+        <div class="chapter-title">Chapter 2 — The Swan River Colony</div>
+        <div class="chapter-sub">1829 · Britain claims Western Australia</div>
+      </div>
+      <div class="chapter-arrow">▶</div>
+    </div>
+    <div class="chapter-body">
+      <p>Two Nyungar brothers are out hunting when they are stopped by another leader, <strong>Yellagonga</strong>, who warns them about strange "gengas" nearby. These turn out to be British officers led by <strong>Captain Fremantle</strong>.</p>
+      <p>In one of the most striking scenes of the book, Fremantle speaks to the Nyungar people in English — a language they do not understand at all — and pretends to ask for their "approval" before naming their land Western Australia. The Nyungar understand nothing. Fremantle takes their silence and confused looks as "consent" and claims <strong>one million square miles of Aboriginal land</strong> in the name of King George IV.</p>
+      <p>A few weeks later, the first British settlers arrive from England. They are completely unprepared: they bring pianos, fine china, and fancy clothes — utterly useless for life in the Australian wilderness. They have no idea what they are walking into.</p>
+      <div class="analysis-box">
+        <div class="label">Deeper meaning</div>
+        <p>The "consent" scene is deeply ironic and painful. The British use language as a weapon of deception — not consciously cruel, but blind to the reality of the people they are dealing with. The settlers' ridiculous luggage (pianos!) shows how Eurocentric and ignorant they are. They assume Australia should just become England.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CH 3 -->
+  <div class="chapter">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <div>
+        <div class="chapter-title">Chapter 3 — The Decline of Aboriginal Society</div>
+        <div class="chapter-sub">1800s · Culture under attack</div>
+      </div>
+      <div class="chapter-arrow">▶</div>
+    </div>
+    <div class="chapter-body">
+      <p>As more British settlers arrive, the damage to Aboriginal life becomes devastating. Their ancient hunting trails are blocked by British fences. Their land — which they have lived on for thousands of years — is taken over by farms and ranches. Since they can no longer hunt freely, they begin helping themselves to the settlers' sheep and cattle out of hunger.</p>
+      <p>The British punish them harshly. Aboriginal men who take livestock are arrested under <strong>British law</strong>, chained, and transported to island prison colonies. Meanwhile, when settlers kidnap Aboriginal women or commit other crimes, they go unpunished. A white man who kidnaps an Aboriginal man's wife is offered a bag of flour as "compensation." The Nyungar people cannot understand the injustice.</p>
+      <p>They now realise the white men are not spirits — they are ordinary humans. But they still cannot understand why they are being treated this way.</p>
+      <div class="analysis-box">
+        <div class="label">Deeper meaning</div>
+        <p>The author's point is clear: the British do not consider Aboriginal people to be fully human. This is not just racism — it is dehumanisation. A woman's kidnapping is worth a bag of flour. The chapter ends with a disturbing real quote from a British novelist (1873) who said Aboriginal people "have to go." This shows how widespread and accepted these attitudes were.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CH 4 -->
+  <div class="chapter">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <div>
+        <div class="chapter-title">Chapter 4 — From the Deserts They Came</div>
+        <div class="chapter-sub">Early 1900s · The Mardu journey to Jigalong</div>
+      </div>
+      <div class="chapter-arrow">▶</div>
+    </div>
+    <div class="chapter-body">
+      <p>By 1900, Western Australia is prospering — for white people. The Aboriginal Mardu people have lost almost everything: their land, their hunting grounds, their culture. They realise their spears and boomerangs are useless against guns. They make a fateful decision: <strong>to relocate</strong>.</p>
+      <p>Their journey takes them across the Great Sandy Desert. Along the way, they encounter a <strong>horse</strong> for the first time in their lives — ridden by a biracial man named Harry Phillips, who turns out to be friendly and leads them to the station at Talawana. Eventually the group continues east, finds the <strong>rabbit-proof fence</strong>, and follows it to the government outpost at <strong>Jigalong</strong>.</p>
+      <p>Here the author explains the fence: it was built in 1907 to stop rabbits from spreading across Western Australia. It stretches nearly <strong>1,200 miles</strong> from north to south. It completely failed to stop rabbits (they just dug under it) — but it became an invaluable navigation tool for Aboriginal people. Find the fence, and you know where you are.</p>
+      <p>Maude — who will later become Molly's mother — is born and grows up happily at Jigalong.</p>
+      <div class="analysis-box">
+        <div class="label">Deeper meaning</div>
+        <p>The author compares the Mardu's journey to the biblical story of the Israelites: a people without a homeland, searching for safety. The fence — built by the British to protect their farms — ironically becomes the Aboriginal people's lifeline. Later, it becomes Molly's path home.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CH 5 -->
+  <div class="chapter">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <div>
+        <div class="chapter-title">Chapter 5 — Jigalong, 1907–1931</div>
+        <div class="chapter-sub">Molly is born · The removal policy · The girls are taken</div>
+      </div>
+      <div class="chapter-arrow">▶</div>
+    </div>
+    <div class="chapter-body">
+      <p>Jigalong is a government depot for the men who maintain the rabbit-proof fence. Aboriginal families settle nearby, living seminomadically — hunting and gathering, but also receiving food and supplies from the depot. Life is not comfortable, but it is a community.</p>
+      <p><strong>Maude</strong>, now 16, learns her arranged husband no longer wants her. She is secretly relieved. But then a white fence inspector gets her pregnant. When her daughter is born, the father names her <strong>Molly</strong>. She is the first officially recorded biracial child at Jigalong.</p>
+      <p>Molly grows into a lively, bright girl — but the other Aboriginal children refuse to play with her because her skin is lighter. She is caught between two worlds. When she is four, two more biracial girls arrive at Jigalong: her half-sister <strong>Gracie</strong> and her younger cousin <strong>Daisy</strong>. The three girls become inseparable.</p>
+      <p>The depot superintendent is worried: the three girls are being excluded by the other children. He writes to the government, saying they are "not getting a fair chance." Then a white woman writes to <strong>Mr. Neville</strong>, Chief Protector of Aborigines, complaining that the girls are "running wild with the whites." This is enough. Under Australia's <strong>1905 Aborigines Act</strong>, the government has the legal right to remove biracial children from their families by force.</p>
+      <p>One day, <strong>Constable Riggs</strong> arrives and takes Molly (14), Gracie, and Daisy away to the Moore River Native Settlement. Their families are powerless. Gracie's mother shouts at Gracie's white father for not stopping it. He says interfering would have been illegal — but this is cold comfort.</p>
+      <div class="analysis-box">
+        <div class="label">Deeper meaning</div>
+        <p>The government's logic was racist but hidden behind "care": they believed biracial children were smarter than full-Aboriginal children and should be "educated" into white society. In reality, the goal was to make Aboriginal culture disappear within a generation. This policy is known today as the <strong>Stolen Generations</strong> — one of the darkest chapters in Australian history.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CH 6 -->
+  <div class="chapter">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <div>
+        <div class="chapter-title">Chapters 6–7 — The Journey South & Moore River</div>
+        <div class="chapter-sub">August 1931 · The settlement revealed</div>
+      </div>
+      <div class="chapter-arrow">▶</div>
+    </div>
+    <div class="chapter-body">
+      <p>The girls travel south in a long series of short trips and overnight stays. Along the way they meet two older Aboriginal girls who are excited about their futures at the settlement — dreams that will never come true. Those girls will be sent to work as servants on farms and won't see their families for years.</p>
+      <p>Molly, Gracie, and Daisy arrive at the <strong>Moore River Native Settlement</strong> in August 1931. They arrive at dusk and notice no one is outside. Then they see why: the residents have already been locked into their <strong>padlocked dormitories</strong> for the night. The girls are shown to a cold room with hard mattresses and only one thin blanket each.</p>
+      <p>The next morning is worse. Breakfast is a thin, <strong>insect-infested porridge</strong>. An older girl named Martha Jones takes them on a tour. Molly thinks it looks exactly like a prison. She sees the <strong>"boob"</strong> — the punishment cell where disobedient children are locked up for a week. She learns that <strong>only English is allowed</strong> — speaking their own Aboriginal language is forbidden.</p>
+      <p>That night, lying in her locked dormitory, Molly hears the bolt slide shut. In that moment she makes her decision: <strong>they must escape.</strong></p>
+      <div class="analysis-box">
+        <div class="label">Deeper meaning</div>
+        <p>The settlement is presented as a prison, not a school. The details — locks, thin food, punishment cells, forbidden language — are all real historical facts. Banning their language is especially significant: language carries culture, identity, and memory. To ban it is to erase who they are.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CH 8 -->
+  <div class="chapter">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <div>
+        <div class="chapter-title">Chapters 8–9 — The Escape & The Trek Home</div>
+        <div class="chapter-sub">August–October 1931 · 1,000 miles on foot</div>
+      </div>
+      <div class="chapter-arrow">▶</div>
+    </div>
+    <div class="chapter-body">
+      <p><strong>Escaping from Moore River is easy</strong> — the girls simply slip off the school grounds on their second day. Finding their way home is the real challenge.</p>
+      <p>Molly knows that her father was a fence inspector. If they can find the <strong>rabbit-proof fence</strong>, they can follow it north all the way home to Jigalong. But reaching the fence takes days of exhausting walking through unfamiliar country.</p>
+      <p>The girls try to catch their own food — lizards, berries — but it is too unreliable. They begin knocking on farmhouse doors to beg for food, knowing that any farmer could report them to the police. They keep walking.</p>
+      <p>News of the escape makes the newspapers. Authorities send a <strong>tracker</strong> — a man skilled at following footprints — to recapture them. The girls have several terrifyingly close calls, hiding in the bush as searchers pass within metres.</p>
+      <p>Finally they reach the fence. But they are only halfway — there are still <strong>500 miles to go</strong>. As weeks pass, <strong>Daisy's feet become badly infected</strong> with deep scratches and wounds. Molly and Gracie must take turns carrying her on their backs.</p>
+      <p>Then, not far from the end, <strong>Gracie makes a devastating choice</strong>. She hears that her mother is at a nearby station and decides she cannot walk any further. She leaves Molly and Daisy and goes to find her mother. She is quickly caught by police and taken back to Moore River. She will never return to Jigalong.</p>
+      <p>In <strong>October 1931</strong>, after roughly <strong>seven weeks</strong> of walking, Molly and Daisy arrive home. Their relatives are stunned — they cannot believe what the girls have done. The authorities hear where they are but decide not to pursue them: they have spent too much money already.</p>
+      <div class="analysis-box">
+        <div class="label">Deeper meaning</div>
+        <p>The trek is both a physical and spiritual journey. Molly's knowledge — inherited from her father — saves them. It is also a symbol: the fence, built by the colonisers, becomes the path to freedom. Gracie's departure is heartbreaking: it shows how close the girls come to breaking, and makes Molly's determination all the more remarkable.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EPILOGUE -->
+  <div class="chapter">
+    <div class="chapter-header" onclick="toggleChapter(this)">
+      <div>
+        <div class="chapter-title">Epilogue — What Happened Next</div>
+        <div class="chapter-sub">The rest of their lives</div>
+      </div>
+      <div class="chapter-arrow">▶</div>
+    </div>
+    <div class="chapter-body">
+      <p><strong>Molly</strong> marries a stockman and has two daughters: Doris (the author) and Annabelle. When the girls are very young, Molly gets appendicitis. The moment she leaves hospital, she and her daughters are returned to Moore River. Molly escapes again — this time with only her younger daughter. <strong>Four-year-old Doris</strong> is left behind. She will not see her mother again for decades. Annabelle is later taken from Molly and put in a children's home — Molly never sees her again.</p>
+      <p><strong>Gracie</strong> never returns to Jigalong. She finishes at Moore River, works on various farms, marries a station hand, and has six children.</p>
+      <p><strong>Daisy</strong> moves to another camp with her family, trains as a housemaid, marries, and has four children.</p>
+      <p><strong>Doris</strong> remains at Moore River until age 12, then goes to a Christian mission. She refuses to become a servant. She trains as a nurse's aide, marries, has four children. In the 1960s she takes her children to meet Molly for the first time. Later she studies journalism, researches Aboriginal history, and writes three books — including this one.</p>
+      <div class="analysis-box">
+        <div class="label">Deeper meaning</div>
+        <p>The epilogue shows that the story did not end with Molly's return home. The government's policies kept tearing her family apart. And yet: Doris writes this book. She turns her family's suffering into history, into literature, into something the world can read and remember. That is its own form of resistance.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════ CHARACTERS ══════════════ -->
+<section id="chars">
+  <h2>Key Characters</h2>
+  <div class="char-grid">
+    <div class="char-card">
+      <div class="char-name">Molly Craig</div>
+      <div class="char-role">Protagonist · Age 14</div>
+      <p>Brave, determined, and a natural leader. She plans the escape and never gives up, even when carrying Daisy on her back. Her father's job as a fence inspector gives her the crucial knowledge to navigate home. She is a symbol of resilience and love for family.</p>
+    </div>
+    <div class="char-card sky">
+      <div class="char-name">Gracie Fields</div>
+      <div class="char-role">Molly's cousin</div>
+      <p>Younger and less resilient than Molly. She makes it most of the way home, but near the end she cannot continue and leaves to find her own mother. She is quickly recaptured. Her choice is heartbreaking but understandable — she had reached her limit.</p>
+    </div>
+    <div class="char-card ochre">
+      <div class="char-name">Daisy Kadibil</div>
+      <div class="char-role">The youngest girl</div>
+      <p>The most vulnerable of the three. Her feet become so badly infected she must be carried. Despite this, she endures. She eventually marries and lives a settled life — the most "normal" outcome of the three girls.</p>
+    </div>
+    <div class="char-card bark">
+      <div class="char-name">Maude (Molly's mother)</div>
+      <div class="char-role">Molly's Aboriginal mother</div>
+      <p>A 16-year-old Aboriginal girl at Jigalong. She has an affair with Thomas Craig and raises Molly until the government takes her away. Powerless to stop the removal, her grief drives the emotional weight of the departure scene.</p>
+    </div>
+    <div class="char-card">
+      <div class="char-name">Thomas Craig</div>
+      <div class="char-role">Molly's white father</div>
+      <p>A rabbit-proof fence inspector. Almost absent from the story — yet crucial. The knowledge he passed on (directly or indirectly) to Molly about the fence is the reason she can navigate home. Without him, there is no escape route.</p>
+    </div>
+    <div class="char-card sky">
+      <div class="char-name">Constable Riggs</div>
+      <div class="char-role">The government officer</div>
+      <p>The policeman who removes the girls from Jigalong. He is not portrayed as a monster — he is doing his job under the law. That is what makes him so disturbing: he represents a system, not just one cruel person.</p>
+    </div>
+    <div class="char-card ochre">
+      <div class="char-name">Mr. Neville</div>
+      <div class="char-role">Chief Protector of Aborigines</div>
+      <p>The government official responsible for the removal policy. He genuinely believed he was helping biracial children. His view: they were "superior" to full-blooded Aboriginal people and should be educated into white society. This is racist paternalism — controlling people "for their own good."</p>
+    </div>
+    <div class="char-card bark">
+      <div class="char-name">Doris Pilkington Garimara</div>
+      <div class="char-role">The author · Molly's daughter</div>
+      <p>Separated from her mother at age 4 when Molly escapes Moore River the second time. She grows up at the settlement. Decades later, she becomes a journalist and researcher, and writes this book as an act of love and historical memory.</p>
+    </div>
+    <div class="char-card">
+      <div class="char-name">Kundilla &amp; Yellagonga</div>
+      <div class="char-role">Tribal leaders (Chapters 1–2)</div>
+      <p>Aboriginal leaders who appear in the historical opening chapters, set in the 1820s–30s. They represent the original Aboriginal world — peaceful, connected to nature, and utterly unprepared for what the British will bring.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TIMELINE ══════════════ -->
+<section id="timeline">
+  <h2>Timeline of Events</h2>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-date">1826</div><p>Major Lockyer establishes Britain's first military base in King George Sound (near Albany). Aboriginal tribes watch, uncertain.</p></div>
+    <div class="tl-item"><div class="tl-date">May 1829</div><p>Captain Fremantle "claims" Western Australia for Britain — without any genuine consent from the Aboriginal people.</p></div>
+    <div class="tl-item"><div class="tl-date">June 1829</div><p>First British settlers arrive with pianos and fine china, completely unprepared for Australia.</p></div>
+    <div class="tl-item"><div class="tl-date">1800s</div><p>Aboriginal hunting trails blocked, land taken. Aboriginal men punished under British law; settlers' crimes against Aboriginal people go unpunished.</p></div>
+    <div class="tl-item"><div class="tl-date">Early 1900s</div><p>The Mardu people, losing their way of life, journey across the Great Sandy Desert. They find the rabbit-proof fence and follow it to Jigalong.</p></div>
+    <div class="tl-item"><div class="tl-date">1905</div><p>Australia's Aborigines Act passed — gives the government legal power to remove Aboriginal children from their families by force.</p></div>
+    <div class="tl-item"><div class="tl-date">1907</div><p>Rabbit-proof fence completed (~1,200 miles). Jigalong depot established. Maude (Molly's future mother) is born there.</p></div>
+    <div class="tl-item"><div class="tl-date">~1917</div><p>Molly Craig is born at Jigalong — the first officially recorded biracial child there.</p></div>
+    <div class="tl-item"><div class="tl-date">~1921</div><p>Gracie and Daisy arrive at Jigalong. The three girls become inseparable.</p></div>
+    <div class="tl-item"><div class="tl-date">December 1930</div><p>A white woman writes to Mr. Neville complaining the girls are "running wild." This triggers the removal process.</p></div>
+    <div class="tl-item"><div class="tl-date">July 1931</div><p>Constable Riggs arrives and forcibly removes Molly (14), Gracie, and Daisy from their families at Jigalong.</p></div>
+    <div class="tl-item"><div class="tl-date">August 1931</div><p>The girls arrive at Moore River Native Settlement. Padlocked dormitories, insect-infested food, punishment cells, forbidden language.</p></div>
+    <div class="tl-item"><div class="tl-date">August 1931</div><p>After just two nights, Molly leads the escape. Newspapers report their flight. A tracker is sent after them.</p></div>
+    <div class="tl-item"><div class="tl-date">September 1931</div><p>Gracie splits from the group to find her mother — and is recaptured and returned to Moore River.</p></div>
+    <div class="tl-item"><div class="tl-date">October 1931</div><p>Molly and Daisy reach Jigalong after ~7 weeks and over 1,000 miles. Authorities decide not to pursue them further.</p></div>
+    <div class="tl-item"><div class="tl-date">Later years</div><p>Molly is taken to Moore River again after appendicitis. She escapes a second time but leaves 4-year-old Doris behind. Annabelle is taken away forever. Doris grows up, trains as a nurse's aide, and eventually writes this book.</p></div>
+  </div>
+</section>
+
+<!-- ══════════════ THEMES ══════════════ -->
+<section id="themes">
+  <h2>Themes &amp; Messages</h2>
+
+  <div class="theme-card">
+    <span class="theme-tag">Theme 1</span>
+    <h3>Freedom &amp; Resilience</h3>
+    <p>The central theme. Molly's decision to escape is not impulsive — she observes the settlement carefully, understands the danger, and acts deliberately. The 1,000-mile trek is the most powerful image in the book: three girls, on foot, against the entire Australian government. Molly never gives up, even when she must carry Daisy on her back with her own feet bleeding.</p>
+    <p class="quote-ex">Example to use: "The theme of resilience is shown when Molly and Gracie carry Daisy on their backs, even though their own feet are also wounded. Molly keeps going because she knows that giving up means never seeing her family again."</p>
+  </div>
+
+  <div class="theme-card">
+    <span class="theme-tag sky">Theme 2</span>
+    <h3>Racism &amp; Colonialism</h3>
+    <p>The book traces a direct line from the first British arrival (1826) to the forced removal of children (1931). Colonialism did not just take land — it took culture, language, identity, and children. The government's removal policy was based on a racist belief: that Aboriginal people were inferior, and that biracial children could be "saved" by becoming white. The book names this clearly and refuses to soften it.</p>
+    <p class="quote-ex">Example: "The government took the girls because of racist beliefs — they thought biracial children should be separated from Aboriginal culture. This is an example of colonialism destroying families."</p>
+  </div>
+
+  <div class="theme-card">
+    <span class="theme-tag ochre">Theme 3</span>
+    <h3>Identity &amp; Belonging</h3>
+    <p>The three girls exist between worlds: too light-skinned to be fully accepted by the Aboriginal children, but taken away precisely because they are not fully white. Molly's trek home is also a journey to reclaim who she is. The settlement tries to replace her language, her culture, her family — her whole identity. She refuses.</p>
+    <p class="quote-ex">Example: "Molly's identity is connected to Jigalong, her family, and her culture. The settlement tried to erase that identity by forbidding her language and separating her from her mother. Her escape is a refusal to let that happen."</p>
+  </div>
+
+  <div class="theme-card">
+    <span class="theme-tag bark">Theme 4</span>
+    <h3>Family &amp; Connection to Country</h3>
+    <p>For Aboriginal people, "country" is not just a place — it is a spiritual and emotional home. The land, the ancestors, the community are all connected. The girls are not just walking home; they are walking back to everything that makes them who they are. The rabbit-proof fence — a symbol of colonial control — becomes the path that leads them back to their roots.</p>
+    <p class="quote-ex">Example: "The rabbit-proof fence is a symbol in the book. It was built by the British, but Molly uses it to find her way home. This shows how even colonial structures can be turned into tools of resistance."</p>
+  </div>
+
+  <div class="theme-card">
+    <span class="theme-tag">Theme 5</span>
+    <h3>History &amp; Memory</h3>
+    <p>The book itself is an act of remembering. Doris writes it decades after the events, based on interviews with her mother and aunt. Aboriginal storytelling does not use dates — it uses landscape, seasons, and memory. The unusual structure of the book (non-linear, jumping in time) reflects this. The author is saying: this is how we remember. This is our history, told our way.</p>
+    <p class="quote-ex">Example: "Doris wrote this book to preserve her mother's story. By telling it in the Aboriginal storytelling tradition — without strict dates and chronology — she is also celebrating Aboriginal culture."</p>
+  </div>
+
+  <div class="tip">
+    <strong>💡 Exam tip:</strong> Always connect a theme to a specific moment in the book. Examiners love examples. Use the phrases: "This is shown when…", "For example…", "This is significant because…"
+  </div>
+</section>
+
+<!-- ══════════════ VOCAB ══════════════ -->
+<section id="vocab">
+  <h2>Important Vocabulary</h2>
+  <div class="vocab-grid">
+    <div class="vocab-item"><div class="vocab-word">half-caste / biracial</div><div class="vocab-def">A person with one Aboriginal and one white European parent. Used as an official term by the government — today considered offensive.</div></div>
+    <div class="vocab-item"><div class="vocab-word">Aboriginal</div><div class="vocab-def">The indigenous (native) people of Australia, living there for 50,000+ years before the British arrived.</div></div>
+    <div class="vocab-item"><div class="vocab-word">Stolen Generations</div><div class="vocab-def">The historical policy of forcibly removing Aboriginal and biracial children from their families — Australia officially apologised in 2008.</div></div>
+    <div class="vocab-item"><div class="vocab-word">gengas</div><div class="vocab-def">The Aboriginal Nyungar word for spirits of ancestors. They initially believed the white men were gengas — which is why they didn't resist.</div></div>
+    <div class="vocab-item"><div class="vocab-word">rabbit-proof fence</div><div class="vocab-def">A ~1,200-mile fence built in 1907 to stop rabbits from spreading west. It failed as a rabbit barrier but became a navigation tool for Aboriginal people.</div></div>
+    <div class="vocab-item"><div class="vocab-word">Moore River Settlement</div><div class="vocab-def">A government institution where biracial Aboriginal children were sent to be "educated" into white society. In reality it was more like a prison.</div></div>
+    <div class="vocab-item"><div class="vocab-word">the "boob"</div><div class="vocab-def">The punishment cell at Moore River. Children could be locked there for up to a week for disobedience.</div></div>
+    <div class="vocab-item"><div class="vocab-word">Protector of Aborigines</div><div class="vocab-def">An official government role — supposedly to protect Aboriginal people. In reality, these officials enforced removal policies.</div></div>
+    <div class="vocab-item"><div class="vocab-word">colonialism</div><div class="vocab-def">When one country takes over another's land and people, imposing its own laws and culture. Britain colonised Australia from 1788.</div></div>
+    <div class="vocab-item"><div class="vocab-word">seminomadic</div><div class="vocab-def">Moving between places seasonally rather than staying in one permanent location. Traditional Aboriginal lifestyle.</div></div>
+    <div class="vocab-item"><div class="vocab-word">depot / station</div><div class="vocab-def">A depot is a supply/maintenance base. A station (in Australia) is a very large ranch, often thousands of square miles.</div></div>
+    <div class="vocab-item"><div class="vocab-word">tracker</div><div class="vocab-def">A person skilled at following footprints and signs in nature. The authorities used a tracker to try to find the escaped girls.</div></div>
+    <div class="vocab-item"><div class="vocab-word">trek</div><div class="vocab-def">A long, difficult journey on foot.</div></div>
+    <div class="vocab-item"><div class="vocab-word">dormitory</div><div class="vocab-def">A large shared bedroom. At Moore River, dormitories were locked and bolted at night.</div></div>
+  </div>
+</section>
+
+<!-- ══════════════ SPEAKING ══════════════ -->
+<section id="phrases">
+  <h2>Useful Phrases for the Oral Exam</h2>
+
+  <div class="phrase-cat">
+    <h3>Introducing the book</h3>
+    <ul class="phrase-list">
+      <li>"Follow the Rabbit-Proof Fence" is a non-fiction book written by Doris Pilkington Garimara, published in 1996.<em>Es ist ein Sachbuch, das auf einer wahren Geschichte basiert.</em></li>
+      <li>It is based on the true story of the author's mother, Molly Craig, and her two cousins.<em>Es basiert auf der wahren Geschichte der Mutter der Autorin.</em></li>
+      <li>The story takes place in Western Australia in 1931, during the era of the Stolen Generations.<em>Die Geschichte spielt in Westaustralien, 1931, zur Zeit der „Stolen Generations".</em></li>
+    </ul>
+  </div>
+
+  <div class="phrase-cat">
+    <h3>Summarising the plot</h3>
+    <ul class="phrase-list">
+      <li>Three Aboriginal girls are forcibly removed from their families by the government because they are biracial.<em>Drei Mädchen werden zwangsweise von ihren Familien getrennt, weil sie gemischter Abstammung sind.</em></li>
+      <li>They are taken to the Moore River Native Settlement, which functions more like a prison than a school.<em>Sie werden in eine Siedlung gebracht, die eher wie ein Gefängnis als eine Schule wirkt.</em></li>
+      <li>Molly decides to escape and leads her cousins on a thousand-mile trek back home along the rabbit-proof fence.<em>Molly beschließt zu fliehen und führt ihre Cousinen auf einem tausend Meilen langen Marsch nach Hause.</em></li>
+      <li>After about seven weeks, Molly and Daisy finally reach their home at Jigalong. Gracie, however, is recaptured.<em>Nach etwa sieben Wochen erreichen Molly und Daisy ihr Zuhause. Gracie wird jedoch wieder gefangen.</em></li>
+    </ul>
+  </div>
+
+  <div class="phrase-cat">
+    <h3>Describing characters</h3>
+    <ul class="phrase-list">
+      <li>Molly is the protagonist. She is brave, determined, and a natural leader who never gives up.<em>Molly ist die Protagonistin — mutig, entschlossen, eine geborene Anführerin.</em></li>
+      <li>Her knowledge of the fence — inherited from her father — is the key to their survival.<em>Ihr Wissen über den Zaun ist der Schlüssel zum Überleben.</em></li>
+      <li>Gracie is less resilient than Molly. Near the end, she cannot continue and leaves the group.<em>Gracie ist weniger widerstandsfähig — am Ende verlässt sie die Gruppe.</em></li>
+      <li>Daisy is the youngest and most vulnerable. She has to be carried when her feet become infected.<em>Daisy ist die Jüngste und muss getragen werden, als ihre Füße sich entzünden.</em></li>
+    </ul>
+  </div>
+
+  <div class="phrase-cat">
+    <h3>Talking about themes</h3>
+    <ul class="phrase-list">
+      <li>One of the main themes is resilience — shown especially when Molly carries Daisy on her back for miles.<em>Eines der Hauptthemen ist Widerstandskraft — gezeigt, wenn Molly Daisy auf dem Rücken trägt.</em></li>
+      <li>The book deals with racism and colonialism — the British treated Aboriginal people as inferior.<em>Das Buch handelt von Rassismus und Kolonialismus.</em></li>
+      <li>The rabbit-proof fence is a symbol: built by colonisers, it becomes the path to freedom for Molly.<em>Der Zaun ist ein Symbol: Von Kolonisatoren gebaut, wird er Mollys Weg zur Freiheit.</em></li>
+      <li>The theme of identity is important — the girls are caught between two worlds and belong fully to neither.<em>Das Thema Identität ist wichtig — die Mädchen gehören keiner Welt ganz an.</em></li>
+    </ul>
+  </div>
+
+  <div class="phrase-cat">
+    <h3>Giving your personal opinion</h3>
+    <ul class="phrase-list">
+      <li>In my opinion, the most powerful moment is when… because it shows that…<em>Meiner Meinung nach ist der eindrucksvollste Moment, als…, weil er zeigt, dass…</em></li>
+      <li>I think Molly is a hero because she never gives up despite all the obstacles she faces.<em>Ich finde Molly ist eine Heldin, weil sie trotz aller Hindernisse nicht aufgibt.</em></li>
+      <li>The book made me realise how cruel the Australian government's policies were towards Aboriginal people.<em>Das Buch hat mir gezeigt, wie grausam die Regierungspolitik gegenüber den Aborigines war.</em></li>
+      <li>What I found most shocking was that the government had the legal right to take children from their families.<em>Am schockierendsten fand ich, dass die Regierung das gesetzliche Recht hatte, Kinder wegzunehmen.</em></li>
+    </ul>
+  </div>
+
+  <div class="tip">
+    <strong>💡 Key exam tip:</strong> In a mündliche Prüfung, always <em>explain</em> your answer — never just state a fact. Use linking words: <strong>"because"</strong>, <strong>"which shows that"</strong>, <strong>"this is significant because"</strong>, <strong>"for example"</strong>. A short answer with a good explanation is better than a long answer with no reasoning!
+  </div>
+</section>
+
+<!-- ══════════════ QUIZ ══════════════ -->
+<section id="quiz">
+  <h2>Practice Quiz</h2>
+  <div class="quiz-box">
+    <div id="quiz-content"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('visible');
+  btn.classList.add('active');
+  if (id === 'quiz') initQuiz();
+}
+
+function toggleChapter(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.chapter-arrow');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+
+// Open first chapter by default
+window.addEventListener('load', () => {
+  const firstBody = document.querySelector('.chapter-body');
+  const firstArrow = document.querySelector('.chapter-arrow');
+  if (firstBody) { firstBody.classList.add('open'); firstArrow.classList.add('open'); }
+});
+
+const questions = [
+  { q: "Why are Molly, Gracie, and Daisy taken from their families?", opts: ["They broke Australian law","They are biracial (half-caste)","Their mothers asked for help","They were orphans"], ans: 1, exp: "Australia's 1905 Aborigines Act allowed the government to remove biracial children from their families. The government believed it was 'educating' them into white society." },
+  { q: "What do the Aboriginal people initially believe white men to be?", opts: ["Enemies from another tribe","Traders from the sea","Gengas — spirits of their ancestors","Government officers"], ans: 2, exp: "The Nyungar believed the white men were 'gengas' — spirits of their dead ancestors. This is why they did not resist the early British arrivals." },
+  { q: "How does Molly know how to navigate home?", opts: ["She followed the stars","She had a map","Her father was a rabbit-proof fence inspector","A farmer helped her secretly"], ans: 2, exp: "Molly's father Thomas Craig worked as a fence inspector. She knew that finding the fence meant finding the way north to Jigalong." },
+  { q: "What was the rabbit-proof fence originally built for?", opts: ["To mark Aboriginal territory","To keep Aboriginal people away from farms","To stop rabbits spreading into Western Australia","To guide British settlers"], ans: 2, exp: "The fence was built in 1907 to stop rabbits from spreading westward. It failed completely — rabbits just dug under it. But it became a navigation tool for Aboriginal people." },
+  { q: "What is the 'boob' at Moore River Settlement?", opts: ["The school classroom","The punishment cell","The food hall","The dormitory"], ans: 1, exp: "The 'boob' is the punishment cell where disobedient children could be locked up for up to a week. Seeing it helps Molly realise the settlement is a prison." },
+  { q: "Captain Fremantle claims Western Australia for Britain — but what is the problem with this?", opts: ["He did not have permission from London","The Aboriginal people said no clearly","The Aboriginal people did not understand English and gave no real consent","Another captain had already claimed it"], ans: 2, exp: "Fremantle spoke in English, which the Nyungar did not understand. He treated their confused silence as 'consent' — one of the book's most powerful examples of colonial injustice." },
+  { q: "What happens to Gracie near the end of the trek?", opts: ["She finds her mother safely","She is injured and cannot walk","She leaves to find her mother and is recaptured","She leads Molly and Daisy home"], ans: 2, exp: "Near the end, Gracie hears her mother is at a nearby station and cannot walk any further. She leaves Molly and Daisy — and is quickly caught and returned to Moore River." },
+  { q: "Why did the Mardu people leave their homeland and travel to Jigalong?", opts: ["They were forced out by soldiers","They followed the British settlers","They lost their land and hunting grounds and chose to relocate","They wanted work on the fence"], ans: 2, exp: "By the early 1900s, the Mardu had lost their hunting trails and land to British farms. Realising their spears were useless against guns, they decided to move towards the government outpost at Jigalong." },
+  { q: "Who wrote 'Follow the Rabbit-Proof Fence' and why?", opts: ["Molly Craig, to describe her escape","A British journalist, as a history report","Doris Pilkington Garimara, Molly's daughter, to honour her mother's story","Daisy Kadibil, the youngest girl"], ans: 2, exp: "Doris Pilkington Garimara is Molly's daughter. She was separated from her mother at age 4 and grew up at Moore River. Decades later, she wrote the book to preserve her mother's story and Aboriginal history." },
+  { q: "What does the rabbit-proof fence symbolise in the book?", opts: ["The cruelty of the British government","Hope, navigation, and the path back to identity and home","The failure of colonial farming","The border between Aboriginal and white Australia"], ans: 1, exp: "The fence was built by colonisers to control nature — and failed. But Molly uses it as her guide home. It becomes a symbol of how even colonial structures can be turned into tools of resistance and survival." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function initQuiz() { current = 0; score = 0; answered = false; renderQuestion(); }
+
+function renderQuestion() {
+  if (current >= questions.length) {
+    document.getElementById('quiz-content').innerHTML = `
+      <div class="quiz-score">🎉 Quiz complete!<br><br>You scored <strong>${score} out of ${questions.length}</strong>.<br><br>
+      ${score >= 9 ? "Outstanding! You know this book very well." : score >= 7 ? "Great work! Review the chapters you found tricky." : score >= 5 ? "Good effort — go back to the Chapters tab and review." : "Keep practising — use the Chapters and Themes tabs to review!"}</div>
+      <div class="quiz-nav" style="justify-content:center;margin-top:20px;"><button onclick="initQuiz()">Try Again</button></div>`;
+    return;
+  }
+  const q = questions[current];
+  document.getElementById('quiz-content').innerHTML = `
+    <div class="quiz-q"><span>Question ${current+1} of ${questions.length}</span>${q.q}</div>
+    <div class="quiz-options">${q.opts.map((o,i)=>`<button onclick="answer(${i})">${o}</button>`).join('')}</div>
+    <div class="quiz-feedback" id="qfb"></div>
+    <div class="quiz-nav">
+      <span class="quiz-counter">Score so far: ${score} / ${current}</span>
+      <button id="nextbtn" onclick="nextQ()" disabled>Next →</button>
+    </div>`;
+}
+
+function answer(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-options button');
+  btns.forEach(b => b.disabled = true);
+  btns[q.ans].classList.add('correct');
+  if (i === q.ans) score++;
+  else btns[i].classList.add('wrong');
+  const fb = document.getElementById('qfb');
+  fb.textContent = (i === q.ans ? '✓ Correct! ' : '✗ Not quite. ') + q.exp;
+  fb.classList.add('show');
+  document.getElementById('nextbtn').disabled = false;
+}
+
+function nextQ() { current++; answered = false; renderQuestion(); }
+</script>
+</body>
+</html>
